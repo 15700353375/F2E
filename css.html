@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>css中你不知道的事</title>
+  <style>
+    /* 磨砂玻璃效果 background-filter*/
+    article {
+      width: 100px;
+      height: 100px;
+      background: rgba(255, 255, 255, 0.5);
+      filter: blur(10px)
+    }
+
+    /* 只需要添加一行代码就可以实现响应式的布局（一些特定场景） */
+    /* .container {  
+      display: grid;  
+      grid-template-columns: 1fr 1fr 1fr;  
+      grid-template-rows: 50px 50px;  
+    } */
+
+    /* 使用repeat()可以让代码更干净： */
+    /* .container {  
+        display: grid;  
+        grid-template-columns: repeat(3, 100px);  
+        grid-template-rows: repeat(2, 50px);  
+    } */
+    /* 使用auto-fit做自动填充： */
+    /* .container {  
+        display: grid;  
+        grid-gap: 5px;  
+        grid-template-columns: repeat(auto-fit, 100px);
+        grid-template-rows: repeat(2, 100px);  
+    } */
+    /* 加上minmax()用一行代码在一些场景中就可以达到响应式效果： */
+    .container {
+      display: grid;
+      grid-gap: 5px;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      grid-template-rows: repeat(2, 100px);
+    }
+  </style>
+</head>
+
+<body>
+  <article>
+    可视对讲发给老师看到分管科室的加分那个路口决
+  </article>
+  <!-- 关于output -->
+  <form oninput="added.value=parseInt(i1.value)+parseInt(i2.value)">
+    <input type="number" min="0" name="i1" value="0"> +
+    <input type="number" min="0" name="i2" value="0"> =
+    <output name="added">0</output>
+  </form>
+
+  <!-- HTML -->
+  <div class="container">
+    <div>1</div>
+    <div>2</div>
+    <div>3</div>
+    <div>4</div>
+    <div>5</div>
+    <div>6</div>
+  </div>
+
+
+
+</body>
+<script>
+  class Test extends React.Component { 
+    constructor(props) { 
+      super(props)        
+      this.state = { message: 'Allo!' }
+    } 
+    handleClick = (e) => { 
+      console.log(this.state.message)
+    }    
+    render() { 
+      return (
+        <div>
+         <button onClick={this.handleClick}>Say Hello</button>
+        </div>
+      ) 
+    } 
+  }
+
+</script>
+
+</html>

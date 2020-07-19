@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body></body>
+  <script>
+    // array-example.js
+    const iterable = ['mini', 'mani', 'mo']
+
+    for (const value of iterable) {
+      console.log(value)
+    }
+
+    const iterable2 = new Set([1, 1, 2, 2, 1])
+
+    for (const value of iterable2) {
+      console.log(value)
+    }
+
+    let obj = { a: 11 }
+    Object.defineProperty(obj, 'b', {
+      value: 12,
+      enumerable: false
+    })
+    for (let i in obj) {
+      console.log(i)
+    }
+    console.log(obj.propertyIsEnumerable('a'))
+    console.log(obj.propertyIsEnumerable('b'))
+
+    var obj2 = { ...obj }
+    console.log(obj2)
+
+    /* call 和 apply的性能哪个更好? */
+     
+    // 一般用console.time做性能测试
+    console.time('A')
+    for(let i=0;i<10000000;i++){}
+    console.timeEnd('A')
+  </script>
+</html>

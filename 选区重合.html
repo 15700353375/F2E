@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  
+</body>
+<script>
+var html = '<p>今天<b>天气好晴朗</b>啊，今天天气是24摄氏度。</p>'
+// 文本内容
+var text = html.replace(/<.*?>/ig,"");
+console.log(text)
+var keywordList = [
+  {
+    id: 1,
+    text: '今天天气',
+    indList: []
+  },
+  {
+    id: 2,
+    text: '天气好晴朗',
+    indList: []
+  }]
+
+let list = []
+keywordList.forEach(item => {
+  let indList = findall(text,item.text)
+  if(indList && indList.length){
+    indList.forEach(i =>{
+      list.push([i,i+item.text.length])
+    })
+  }
+})
+
+console.log(list)
+
+let newList = []
+
+list.forEach((item,index) =>{
+  let t = false
+  list.forEach((i,j)=>{
+    if(index == j){
+      return 
+    }
+    let flag = getIntersection(item,i)
+    if(flag){
+      t=true
+      let all = bingji(item,i)
+      newList.push(all)
+    }
+  })
+  // if(!t){
+    newList.push(item)
+  // }
+})
+
+// 去重之后--后面写多个数组之间的去重方法
+newList = [[0,4],[2,7],[0, 7],[9, 13]]
+console.log(newList)
+
+
+let textList = []
+newList.forEach(item =>{
+  textList.push(text.substring(item[0],item[1]))
+})
+console.log(textList)
+// 按照文本长度降序排列
+textList = ["今天天气好晴朗","天气好晴朗","今天天气"]
+
+// 然后用之前的方法去遍历-替换
+textList.forEach(event =>{
+  let oldEvent = `<u>${event}</u>`
+  var oldReg = new RegExp(oldEvent, 'g')
+  text = text.replace(oldReg, `${event}`)
+  var reg = new RegExp(event, 'g')
+  text = text.replace(reg, `<u>${event}</u>`)
+  
+})
+
+console.log(text)
+// var arr = [1,2,3,3,4,3]
+// function loop(arr){
+//   index = arr.length
+//   if(index >= 1){
+//    if(arr[index] === arr[index-1]){
+//     arr.splice(index,1);
+//    }
+//    loop(index - 1); //递归loop函数进行去重
+//   }
+//  loop(arr.length-1);
+//  return arr;
+// };
+// console.log(loop(arr))
+
+
+function findall(a,x){
+ var results=[],
+   len=a.length,
+   pos=0;
+ while(pos<len){
+  pos=a.indexOf(x,pos);
+  if(pos===-1){//未找到就退出循环完成搜索
+   break;
+  }
+  results.push(pos);//找到就存储索引
+  pos+=1;//并从下个位置开始搜索
+ }
+ return results;
+}
+// let inter = getIntersection([0,4],[2,7])
+// console.log(inter)
+// 判断是否有交集
+function getIntersection(args1 ,args2 ) {
+		args1a=args1[0];
+		args1b=args1[1];
+		
+		args2a=args2[0];
+    args2b=args2[1];		
+		
+		if(isNaN(args1a) || isNaN(args1b) || isNaN(args2a) || isNaN(args2b)  )
+					return null;
+		if(args1a>args1b){
+			chang=args1a;
+			args1a=args1b;
+			args1b=chang;
+		}		
+		if(args2a>args2b){
+			change=args2a;
+			args2a=args2b;
+			args2b=change;
+		}		
+		
+		if(args1a<args2a){
+			if(args1b<args2b){ 
+				result2=args1b;
+				result1=args2a;
+			}else{
+				result2=args2b;
+				result1=args2a;
+			}
+		}else{
+			changea=args1a;
+			changeb=args1b;
+			args1a=args2a;
+			args1b=args2b;
+			args2a=changea;
+			args2b=changeb;
+			if(args1b<args2b){
+				result2=args1b;
+				result1=args2a;
+			}else{
+				result2=args2b;
+				result1=args2a;
+			}
+		}
+		
+		result=[result1,result2]
+		
+		if(args1b<args2a)
+			return null;		
+		
+    	return result;
+}
+
+// console.log(bingji([1,5],[3,8]))
+// 取并集
+function bingji(a,b){
+  let a1 = a[0]
+  let a2 = a[1]
+
+  let b1 = b[0]
+  let b2 = b[1]
+
+  let start = null
+  let end = null
+  
+  if(a1>=b1){
+    start = b1
+  }else{
+    start = a1
+  }
+
+  if(a2<=b2){
+    end = b2
+  }else{
+    end = a2
+  }
+  
+  return [start, end] 
+}
+
+
+</script>
+</html>

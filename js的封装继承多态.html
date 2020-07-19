@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>js的封装继承多态</title>
+</head>
+<body>
+  
+</body>
+<script>
+
+  /* 一、封装 */
+  // 封装的作用：
+  // 1、封装是为了对函数内部的数据起到保护作用
+  // 2、提高内聚、降低耦合
+
+  // 1、函数模式的封装  其实就是一个只执行函数和一个闭包，去返回一个对象字面量
+  var foo =(function(){
+    var bar = 0;
+    return function(baz){
+      return {
+        var :bar +baz
+      }
+    }
+  })()   
+  //  foo是立即执行函数里面返回的函数，立即执行函数只是形成一个词法作用域  
+  console.log(foo(1))
+
+  // 2、字面量模式的封装 js允许我们用{}定义一个对象
+  var obj = {
+    bar: ''
+  }
+  // 它确实是Object的实例，但是它没有办法和类产生关联，无法批量创建相同规格的对象
+
+  // 3、工厂模式  改进字面量模式
+  function createFoo(bar,baz){
+    var foo = {}
+    foo.bar = bar
+    foo.baz = baz
+    foo.sayName=function(){
+      return foo.bar+foo.baz
+    }
+    return foo
+  }
+  // 这种方式临时创建了一个对象，将对象的属性值设置为响应的形参，然后再返回这个对象，可以解决批量实例化对象的问题，但是产生的对象无法和类产生关联
+
+  // 4、构造函数模式
+  function Foo(bar,baz){
+    this.bar = bar 
+    this.baz = baz
+    this.sayName=function(){
+      return foo.bar+foo.baz
+    }
+  }
+  // 这种方式不需要显示的创建一个对象，只需要把传入的参数赋给this
+  // 我们创建Foo的实例的时候
+  var foo1 = new Foo('11','22')
+  console.log(foo1)
+  // 创建实例的过程：
+  // 1、创建一个新的对象
+  // 2、把这个新对象的__proto__指向构造函数的prototype
+  // 3、将this绑定到这个对象上
+  // 4、返回这个对象
+
+
+
+  /* this指向问题 */
+  // 几种常见的调用方式
+
+  // 1、直接调用
+  function fun(){
+    console.log(this)
+  }
+  fun()  //非严格模式下执行window  严格模式下undifined
+
+  // 2、作为对象方法调用  this 指向调用它的对象
+  var obe={}
+  obe.fun=fun
+  obe.fun()
+
+  // 3、作为构造函数调用  this指向new出来的实例
+  function Foo2(){
+    this.log = function(){
+      console.log(this)
+    }
+  }
+  var foo2 = new Foo2()
+  foo2.log()
+
+
+  // 通过call、apply、bind改变this指向
+  // call和apply基本一样，只是传参方式不一样，然后bind会返回一个不会立即执行的函数
+  var foo3 = {
+    name: 'foo'
+  }
+  var baz3 = {
+    name:'baz'
+  }
+  foo3.bar = function(){
+    console.log(this)
+  }
+  foo3.bar() //foo3
+  foo3.bar.apply(baz3) //baz
+
+
+
+  /* 继承的6种方式 */
+  
+function Person(name){
+  this.name=name
+  this.sum = function(){
+    console.log(this.name)
+  }
+}
+
+Person.prototype.age = 10
+
+
+// 1、原型链继承
+
+function Per(){
+  this.name='Per'
+}
+Per.prototype = new Person()
+var per1 = new Per()
+console.log(per1.age)
+console.log(per1 instanceof Person)
+
+function Man() {};
+
+let person = new Person('mike');
+Man.prototype = person;
+
+const mike = new Man();
+console.log(Man.prototype.__proto__ == Person.prototype)
+</script>
+</html>
